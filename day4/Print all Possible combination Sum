@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<vector<int>> ans;
+    void help(int i, vector<int> &c, int t, vector<int> &soln){
+        if(t == 0){
+            ans.push_back(soln);
+            return;
+        }
+        
+        if(t < 0){
+            return;
+        }
+        
+        if(i == c.size()){
+            return;
+        }
+        
+        soln.push_back(c[i]);
+        help(i, c, t-c[i], soln);
+        
+        //skip the ith elem
+        soln.pop_back();
+        help(i+1, c, t, soln);
+        
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        //Brute Force -->
+        //1) find the subsets of the candidates
+        //2) Create a map and store all the elments of the candidates 
+        //3) and then find the sum of all the subsets if the sum is equal to the target 
+        // then include it in the 2D and array 
+        // else if target - sum is in the map of the array then firstly push the 
+        // target -sum in that particular subsets and then push the subset into the and vector
+        
+        // Approach-2> EFFICIENT APPROACH
+        vector<int> soln;
+        help(0, candidates, target, soln);
+        return ans;
+        
+
+    }
+};
