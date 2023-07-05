@@ -1,0 +1,89 @@
+
+class RandomizedCollection {
+private:
+    vector<pair<int, int>> nums;
+    unordered_map<int, vector<int>> map;
+public:
+    RandomizedCollection() {
+    }
+    
+    bool insert(int val) {
+       auto result = map.find(val) == map.end();   // Returns true if item is not present
+        
+        map[val].push_back(nums.size());
+        nums.push_back({val, map[val].size()-1});
+        return result;
+    }
+    
+    bool remove(int val) {
+        auto result = map.find(val) != map.end(); // Return if item is present
+        if(result){
+            auto last = nums.back();
+            map[last.first][last.second] = map[val].back();
+            nums[map[val].back()] = last;
+            map[val].pop_back();
+            if(map[val].empty()){
+                map.erase(val);
+            }
+            nums.pop_back();
+        }
+        return result;
+        
+    }
+    
+    int getRandom() {
+        return nums[rand() % nums.size()].first;
+    }
+};
+
+
+
+// class RandomizedCollection{
+// private:
+//     int MOD = 1e9 + 7;
+//     vector<int> nums;
+//     unordered_map<int, int> map;
+// public:
+//     RandomizedCollection(){
+        
+//     }
+    
+//     bool insert(int val){
+//       if(map.find(val) != map.end()){
+//           return false;
+//       }
+//         nums.push_back(val);
+//         map[val] = nums.size()-1;
+//         return true;
+//     }
+    
+//     bool remove(int val){
+//        if(map.find(val) == map.end()){
+//            return false;
+//        }
+        
+//         auto it = map.find(val);
+//         // just store the back value of array at that place
+//         nums[it->second] = nums.back();
+//         nums.pop_back();
+        
+//         // UPDATE IN MAP
+//         map[nums[it->second]] = it->second;
+//         map.erase(val);
+//         return true;
+//     }
+    
+//     int getRandom() {
+//         if(nums.size() == 0) return 0;
+//         int idx =  rand() % nums.size(); 
+//         return nums[idx];
+//     }
+// };
+
+/**
+ * Your RandomizedCollection object will be instantiated and called as such:
+ * RandomizedCollection* obj = new RandomizedCollection();
+ * bool param_1 = obj->insert(val);
+ * bool param_2 = obj->remove(val);
+ * int param_3 = obj->getRandom();
+ */
