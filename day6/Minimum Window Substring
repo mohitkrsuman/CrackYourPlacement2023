@@ -1,0 +1,61 @@
+class Solution {
+public:
+    // We have to find minimum window in string s in which string t exist
+    string minWindow(string s, string t) {
+        
+       int n = s.length();
+       unordered_map<int,int> letters;
+       for(auto ch : t){
+           letters[ch]++;
+       }
+       int cnt = 0;
+       int low = 0, min_len = INT_MAX, min_start = 0;
+
+       for(int high = 0; high < n; high++){
+           if(letters[s[high]] > 0) cnt++;
+           // take useless to the -ve and used to 0
+           letters[s[high]]--;
+           
+           if(cnt == t.length()){
+               
+               // remove useless
+               while(low < high && letters[s[low]] < 0){
+                   letters[s[low]]++;
+                   low++;
+               }
+               // update length
+               if(min_len > high - low + 1){
+                   min_start = low;
+                   min_len = high - low + 1;
+               }
+               
+               // remove useful one
+               letters[s[low++]]++;
+               cnt--;
+           }
+       }
+        
+        return min_len == INT_MAX ? "" : s.substr(min_start, min_len);
+        
+//         unordered_map<char, int> letters;
+//         for(auto v : t) letters[v]++;
+//         int count = 0;  // count no t's letters in current window
+        
+//         int low = 0, min_length = INT_MAX, min_start = 0;
+        
+//         for(int high = 0; high < s.length(); high++){
+//             if(letters[s[high]] > 0) count++; //means that this letter is in t;
+//             letters[s[high]]--;    // reduce the count of the letter in which we are currently
+            
+//             if(count == t.length()){  // if current windows contains all the character of t
+//                 while(low < high && letters[s[low]] < 0){
+//                     letters[s[low]]++, low++; //move low ahead if its not of any significance
+//                 } 
+//                  if(min_length > high-low) min_length = high-(min_start=low)+1; //update the min length
+//                 letters[s[low++]]++; //move low ahaead and also increment the value
+//                 count--; //count-- as we are moving low ahead & low pointed to a char in t before
+//             }
+//         }
+//          return min_length == INT_MAX ? "" : s.substr(min_start, min_length); //check for edge case & return the result
+    }
+};
