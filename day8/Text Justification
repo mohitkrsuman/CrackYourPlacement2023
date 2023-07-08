@@ -1,0 +1,107 @@
+class Solution{
+    void paddingSpace(string &str, int maxWidth, bool last){
+        int reqPad = maxWidth - str.length();
+        if(!reqPad) return ;
+        int spaceCnt = 0;
+        
+        for(int i = 0; i < str.length(); i++){
+            if(str[i] == ' ')spaceCnt++;
+        }
+        if(!spaceCnt || last){
+            str.insert(str.end(), reqPad, ' ');
+        }else{
+            int eveSp = reqPad / spaceCnt;
+            int addSp = reqPad % spaceCnt;
+            
+            for(int i = 0; i < str.length(); i++){
+                if(str[i] == ' '){
+                    str.insert(i, eveSp + (addSp ? 1 : 0), ' ');
+                    i += eveSp + (addSp ? 1 : 0);
+                    if(addSp) addSp--;
+                }
+            }
+        }
+    }
+    
+public:
+    vector<string> &fullJustify(vector<string> &words, int maxWidth){
+        int n = words.length();
+        string str = "";
+        vector<string> ans;
+        
+        for(int i = 0; i < n; i++){
+            if(str.length() + words[i].length() <= maxWidth){
+                str += words[i];
+                str += " ";
+            }else{
+                // popping for the extra space
+                str.pop_back();
+                // add padding between the words
+                paddingSpace(str, maxWidth, false);
+                ans.push_back(str);
+                str = "";
+                i--;
+            }
+        }
+        
+        if(str.back() == ' ') str.pop_back();
+        paddingSpace(str, maxWidth, true);
+        return ans;
+    }
+};
+
+
+
+//class Solution {
+//private:
+//     void paddingSpace(string &str, int maxWidth, bool last){
+//         // required extra space 
+//         int reqPad = maxWidth - str.length();
+//         // if not required then the sentence is completely filled till maxWidth then return
+//         if(!reqPad) return;
+//         int spaceCnt = 0;
+        
+//         for(auto &s : str){
+//            if(s == ' ') spaceCnt++; 
+//         }
+//         if(!spaceCnt || last)str.insert(str.end(), reqPad, ' ');
+//         else{
+//             // this is giving the space that should be added
+//             int eveSp = reqPad/spaceCnt;
+//             int addSp = reqPad%spaceCnt;
+            
+//             for(int i = 0; i < str.length(); i++){
+//                 if(str[i] == ' '){
+//                     str.insert(i, eveSp + (addSp ? 1 : 0), ' ');
+//                     i += eveSp + (addSp ? 1 : 0);
+//                     if(addSp) addSp--;
+//                 }
+//             }
+//         }
+//     }
+
+    
+// public:
+//     vector<string> fullJustify(vector<string>& words, int maxWidth) {
+//         int n = words.size();
+//         vector<string> ans;
+//         string str = "";
+        
+//         for(int i = 0; i < n; i++){ 
+//           if(str.length() + words[i].size() <= maxWidth){
+//              str += words[i];
+//              str += " ";
+//           }else{
+//               str.pop_back();
+//               paddingSpace(str, maxWidth, false);
+//               ans.push_back(str);
+//               str = "";
+//               i--;
+//           }
+//         }
+//         if(str.back() == ' ')str.pop_back();
+//         paddingSpace(str, maxWidth, true);
+//         ans.push_back(str);
+//         return ans;
+//     }
+//};
