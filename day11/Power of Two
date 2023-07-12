@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+    // 1st approach -> using divident
+/*
+        if(n <= 0){
+            return false;
+        }
+        while(n%2 == 0){
+            n /= 2;
+        }
+        return n==1;
+*/
+        // 2nd approach -> using bit manipulation
+        
+        if(n <= 0){
+            return 0;
+        }
+        
+        return ((n&(n-1))==0);
+    }
+};
