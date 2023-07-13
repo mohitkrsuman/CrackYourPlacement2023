@@ -1,0 +1,12 @@
+	  void reverseSubArray(int *a, int n, int l, int r) {
+        // code here
+        int mid=ceil((l+r)/2);
+        int temp,k=0;
+        for(int i=l-1;i<mid;i++)
+        {
+            temp=a[i];
+            a[i]=a[r-1-k];
+            a[r-1-k]=temp;
+            k++;
+        }
+    }
