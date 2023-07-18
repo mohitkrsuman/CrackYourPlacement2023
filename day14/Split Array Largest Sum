@@ -1,0 +1,45 @@
+class Solution {
+public:
+    // Painters partitions,  Book Allocation are same
+    int no_of_subarrays_with_max_sum_as_mid(vector<int> &nums, int mid){
+        int count = 1;
+        int sum = 0;
+        
+        for(int i = 0; i < nums.size(); i++){
+            if(sum + nums[i] > mid){
+                sum = nums[i];
+                count++;
+            }else{
+                sum += nums[i];
+            } 
+        }
+        
+        return count;
+    }
+    
+    
+    int splitArray(vector<int>& nums, int k) {
+        int low = *max_element(nums.begin(), nums.end());
+        int high = accumulate(nums.begin(), nums.end(), 0);
+        int ans = low;
+        
+        while(low <= high){
+            // maximum possible limit
+            int mid = low + (high-low)/2;
+            
+            int n = no_of_subarrays_with_max_sum_as_mid(nums, mid);
+            
+            if(n > k){
+                // you have taken a very low value of mid
+                low = mid+1;
+            }else{
+                ans = mid;  // try to find the better ans
+                high = mid-1;
+            }
+        }
+        
+        return ans;
+        
+
+    }
+};
