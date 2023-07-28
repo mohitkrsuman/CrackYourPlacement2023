@@ -1,0 +1,50 @@
+
+    Node *sortedMerge(Node *head1, Node *head2){
+        Node *l1 = head1;
+        Node *l2 = head2;
+        
+        if(l1->data > l2->data){
+            swap(l1, l2);
+        }
+        
+        Node *dummy = new Node(0);
+        Node *temp = dummy;
+        
+        while(l1 != NULL){
+            if(l1->data > l2->data){
+                swap(l1, l2);
+                continue;
+            }
+            temp->next = l1;
+            temp = l1;
+            l1 = l1->next;
+        }
+        if(l1 != NULL){
+            temp->next = l1;
+        }
+        if(l2 != NULL){
+            temp->next = l2;
+        }
+        
+        return dummy->next;
+    }
+    
+    Node* mergeSort(Node* head) {
+        // your code here
+        Node *slow = head;
+        Node *fast = head;
+        
+        if(head == NULL || head->next == NULL) return head;
+        
+        if(fast->next != NULL && fast->next->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        Node *middle = slow->next;
+        slow->next = NULL;
+        
+        Node *left = mergeSort(head);
+        Node *right = mergeSort(middle);
+        return sortedMerge(left, right);
+    }
